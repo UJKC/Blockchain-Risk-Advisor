@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="div">
@@ -31,7 +32,47 @@
                 <div class="div-17">
                   <div class="div-18">
                     <div class="column-3"><div class="div-19"></div></div>
-                    <div class="column-4"><div class="div-20"></div></div>
+                    <div class="column-4"><div class="div-20">
+                        {% if chart_data %}
+        <p>{{ chart_data.name }}</p>
+        
+        <!-- Add code to render the chart using chart_data.values -->
+        <canvas id="myChart" width="400" height="200"></canvas>
+
+        <script>
+            // Get chart data from the server-side template variable
+            var chartData = {{ chart_data.values | tojson | safe }};
+
+            // Extract x and y values
+            var xValues = chartData.map(function(point) {
+                return point.x;
+            });
+
+            var yValues = chartData.map(function(point) {
+                return point.y;
+            });
+
+            // Create a Chart.js line chart
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        label: 'Chart Data',
+                        data: yValues,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                }
+            });
+        </script>
+
+    {% else %}
+        <p>Error fetching chart data</p>
+    {% endif %}
+                    </div></div>
                     <div class="column-5"><div class="div-21"></div></div>
                   </div>
                 </div>
