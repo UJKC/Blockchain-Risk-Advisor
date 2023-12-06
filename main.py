@@ -10,7 +10,7 @@ def get_blockchain_chart_data():
     rolling_average = '8hours'
     format_type = 'json'
 
-    url = f'https://api.blockchain.info/charts/{chart_name}?timespan={timespan}&rollingAverage={rolling_average}&format={format_type}'
+    url = f'https://api.blockchain.info/charts/transactions-per-second?timespan=5weeks&rollingAverage=8hours&format=json'
     response = requests.get(url)
 
     # Check if the request was successful (status code 200)
@@ -30,7 +30,7 @@ def index():
     chart_data = get_blockchain_chart_data()
 
     # Render the HTML page and pass the chart data
-    return render_template('index.html', chart_data=chart_data)
+    return render_template('home.html', chart_data=chart_data)
 
 if __name__ == "__main__":
     app.run(debug=True)
